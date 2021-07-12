@@ -1,0 +1,22 @@
+// This source code is subject to the terms of the Mozilla Public License 2.0 at https://mozilla.org/MPL/2.0/
+// © ReadyFor401k
+// https://moneyvikings.com
+
+//@version=4
+study("The Money Vikings RSI")
+i_src = input(close, "Source", input.source)
+i_length = input(14, "Length", input.integer)
+
+f_grad_transp(_c_col, _transp) =>
+    _c_red = color.r(_c_col)
+    _c_green = color.g(_c_col)
+    _c_blue = color.b(_c_col)
+    color.rgb(_c_red, _c_green, _c_blue, _transp)
+
+rsi = rsi(i_src, i_length)
+c_grad = color.from_gradient(rsi, 30, 70, color.aqua, color.red)
+
+plot(rsi, color=c_grad, linewidth=2)
+band1 = hline(70, "Overbought", color=color.rgb(255, 82, 82))
+band0 = hline(30, "Oversold", color=color.rgb(0, 170, 255))
+fill(band1, band0, color=f_grad_transp(c_grad, 90), title="Background")
